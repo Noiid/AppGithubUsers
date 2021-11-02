@@ -23,7 +23,7 @@ class MainViewModel : ViewModel() {
 
     private fun showMainListUser(){
         _isLoading.value = true
-        val client = ApiConfig.getApiService().getListSearch("mark")
+        val client = ApiConfig.getApiService().getListSearch(keySearch)
         client.enqueue(object : Callback<GithubResponse> {
             override fun onResponse(
                 call: Call<GithubResponse>,
@@ -32,6 +32,7 @@ class MainViewModel : ViewModel() {
                 _isLoading.value = false
                 if(response.isSuccessful){
                     _listUsers.value = response.body()?.items
+
                 } else {
                     Log.e(TAG, "onFailure: ${response.message()}")
                 }

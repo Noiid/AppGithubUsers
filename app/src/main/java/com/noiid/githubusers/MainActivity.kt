@@ -4,7 +4,9 @@ import android.content.Intent
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.noiid.githubusers.adapter.ListAccountAdapter
@@ -18,7 +20,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val mainViewModel by viewModels<MainViewModel>()
 
-    private val list = ArrayList<Account>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -27,13 +28,17 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.title = getString(R.string.title)
 
-        binding.rvAccount.setHasFixedSize(true)
+
+
+//        binding.rvAccount.setHasFixedSize(true)
+
+        showRv()
 
         mainViewModel.listUser.observe(this, { listUser ->
             setListUser(listUser)
         })
 
-        showRecyclerList()
+
     }
 
     private fun showRecyclerList(){
@@ -45,12 +50,22 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setListUser(listUser: List<ListUser>) {
+    private fun showRv() {
+        val layoutManager = LinearLayoutManager(this)
+        binding.rvAccount.layoutManager = layoutManager
+        val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
+        binding.rvAccount.addItemDecoration(itemDecoration)
+
+
+    }
+
+    private fun setListUser(Users: List<ListUser>) {
         val listUser = ArrayList<Users>()
-        for (user in listUser){
-            val user = Users(user.username,user.avatar)
+        for (user in Users){
+            val user = Users(user.login,user.avatar_url)
             listUser.add(user)
         }
+        Log.e("data",listUser.toString())
         val listAccountAdapter = ListAccountAdapter(listUser)
         binding.rvAccount.adapter = listAccountAdapter
         listAccountAdapter.setOnItemClickCallback(object : ListAccountAdapter.OnItemClickCallback {

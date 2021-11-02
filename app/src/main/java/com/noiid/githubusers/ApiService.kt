@@ -6,9 +6,9 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface ApiService {
-    @GET("search/users?q={id}")
+    @GET("search/users?")
     fun getListSearch(
-        @Path("id") id: String
+        @Query("q") id: String
     ): Call<GithubResponse>
 
     @GET("users/{id}")

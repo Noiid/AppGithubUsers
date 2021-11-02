@@ -38,7 +38,7 @@ data class Users (
 
 data class ListUser (
     @field:SerializedName("login")
-    val username: String,
+    val login: String,
 
     @field:SerializedName("avatar_url")
     val avatar_url: String
